@@ -16,6 +16,7 @@ import com.mindtree.SpringBootApp.repositories.UserRepository;
 @RequestMapping("/api/users")
 public class UsersController {
 
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -28,7 +29,7 @@ public class UsersController {
 	//Post method to save a user 
 	@PostMapping
 	@ResponseStatus(code=HttpStatus.OK)
-	public void create(@RequestBody User user) {
-		userRepository.save(user);
+	public User create(@RequestBody User user) {
+		return userRepository.save(user);
 	}
 }
