@@ -65,6 +65,46 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+			 <plugin>
+                        <groupId>io.fabric8</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.18.1</version>
+                        <configuration>
+                        <registry>registry.hub.docker.com/rakqesh</registry>
+                            <images>
+                                <image>
+                                    <name>rakqesh/spring-boot-app2</name>
+                                     <build>
+                                        <dockerFileDir>${project.basedir}</dockerFileDir>
+                                     </build>
+                                </image>
+                            </images>
+                            
+                            <authConfig>
+								 <username>rakqesh</username>
+								 <password>Enter password</password>
+							</authConfig>
+ 
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>docker:build</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>build</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>docker:push</id>
+                                <phase>install</phase>
+                                <goals>
+                                    <goal>push</goal>
+                                </goals>
+                            </execution>
+
+                        </executions>
+        	</plugin>
 		</plugins>
 	</build>
 
