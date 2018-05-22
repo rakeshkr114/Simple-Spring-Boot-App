@@ -65,27 +65,40 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+                </plugins>
+        </build>
 			
-			 <plugin>
+<!-- Release profile to bulild, test, create Docker image and and push the image to Docker Hub -->
+ 	<profiles>
+	   <profile>
+    	     <id>release</id>
+	     <activation>
+	        <activeByDefault>false</activeByDefault>
+             </activation>  
+	      <build>  
+		<plugins>
+		   <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
                         <version>0.18.1</version>
                         <configuration>
-                        <registry>registry.hub.docker.com/rakqesh</registry>
+                        <registry>registry.hub.docker.com</registry>
                             <images>
                                 <image>
-                                    <name>rakqesh/spring-boot-app2</name>
+                                    <name>rakqesh/spring-boot-app</name>
                                      <build>
                                         <dockerFileDir>${project.basedir}</dockerFileDir>
                                      </build>
                                 </image>
                             </images>
-                            
+
+		<!-- Authentication using pom.xml -->
+<!--
                             <authConfig>
-								 <username>rakqesh</username>
-								 <password>Enter password</password>
-							</authConfig>
- 
+				 <username>Enter Username</username>
+				 <password>Enter password</password>
+    			   </authConfig>
+--> 			
                         </configuration>
                         <executions>
                             <execution>
@@ -102,11 +115,12 @@
                                     <goal>push</goal>
                                 </goals>
                             </execution>
-
                         </executions>
-        	</plugin>
+        	  </plugin>
 		</plugins>
-	</build>
-
+	    </build>
+      </profile>
+    </profiles>
+<!-- End of release profile -->
 
 </project>
