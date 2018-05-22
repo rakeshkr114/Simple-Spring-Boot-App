@@ -48,9 +48,9 @@
 		
 		<!-- for java 9-->
 		<dependency>
-        	<groupId>javax.xml.bind</groupId>
-        	<artifactId>jaxb-api</artifactId>
-    	</dependency>
+        		<groupId>javax.xml.bind</groupId>
+        		<artifactId>jaxb-api</artifactId>
+	    	</dependency>
     	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -59,35 +59,38 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
+
+              <build>
+                <plugins>
+                        <plugin>
+                                <groupId>org.springframework.boot</groupId>
+                                <artifactId>spring-boot-maven-plugin</artifactId>
+                        </plugin>
+                </plugins>                
+              </build>
+              
+
+
+<!-- Release profile to bulild, test, create Docker image and and push the image to Docker Hub -->
+ 	<profiles>
+	   <profile>
+    	     <id>release</id>
+	     <activation>
+	        <activeByDefault>false</activeByDefault>
+             </activation>  
+	      <build>  
+		<plugins>		
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			
-			 <plugin>
-                        <groupId>io.fabric8</groupId>
-                        <artifactId>docker-maven-plugin</artifactId>
-                        <version>0.18.1</version>
+			 <groupId>com.spotify</groupId>
+			 <artifactId>docker-maven-plugin</artifactId>
+			 <version>1.0.0</version>
+
                         <configuration>
-                        <registry>registry.hub.docker.com/rakqesh</registry>
-                            <images>
-                                <image>
-                                    <name>rakqesh/spring-boot-app2</name>
-                                     <build>
-                                        <dockerFileDir>${project.basedir}</dockerFileDir>
-                                     </build>
-                                </image>
-                            </images>
-                            
-                            <authConfig>
-								 <username>rakqesh</username>
-								 <password>Enter password</password>
-							</authConfig>
- 
-                        </configuration>
-                        <executions>
+			 <imageName>registry.hub.docker.com/rakqesh/spring-boot-app2</imageName>
+			 <dockerDirectory>${project.basedir}</dockerDirectory> 
+			</configuration>
+
+			 <executions>
                             <execution>
                                 <id>docker:build</id>
                                 <phase>package</phase>
@@ -95,6 +98,7 @@
                                     <goal>build</goal>
                                 </goals>
                             </execution>
+
                             <execution>
                                 <id>docker:push</id>
                                 <phase>install</phase>
@@ -102,11 +106,11 @@
                                     <goal>push</goal>
                                 </goals>
                             </execution>
-
-                        </executions>
-        	</plugin>
+                        </executions> 
+        	 </plugin>
 		</plugins>
-	</build>
-
+             </build>
+            </profile>
+        </profiles> 
 
 </project>
